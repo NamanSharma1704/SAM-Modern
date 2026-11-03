@@ -1,4 +1,5 @@
 ﻿/* Copyright (c) 2024 Rick (rick 'at' gibbed 'dot' us)
+ * Modified in 2026 by Naman for SAM Modern
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -26,6 +27,9 @@ namespace SAM.Game.Stats
     {
         public float OriginalValue;
         public float FloatValue;
+        public float MinValue;
+        public float MaxValue;
+        public float MaxChange;
 
         public override object Value
         {
@@ -33,10 +37,9 @@ namespace SAM.Game.Stats
             set
             {
                 var f = float.Parse((string)value, System.Globalization.CultureInfo.CurrentCulture);
-                if ((this.Permission & 2) != 0 &&
-                    this.FloatValue.Equals(f) == false)
+                if (f.Equals(this.OriginalValue) == false)
                 {
-                    throw new StatIsProtectedException();
+                    this.CheckConstraints(f, this.OriginalValue, this.MinValue, this.MaxValue, this.MaxChange);
                 }
                 this.FloatValue = f;
             }

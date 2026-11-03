@@ -1,4 +1,5 @@
 ﻿/* Copyright (c) 2024 Rick (rick 'at' gibbed 'dot' us)
+ * Modified in 2026 by Naman for SAM Modern
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -28,6 +29,8 @@ namespace SAM.API.Types
     public struct AppDataChanged
     {
         public uint Id;
+
+        [MarshalAs(UnmanagedType.I1)]
         public bool Result;
     }
 }

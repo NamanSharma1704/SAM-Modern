@@ -1,4 +1,5 @@
 ﻿/* Copyright (c) 2024 Rick (rick 'at' gibbed 'dot' us)
+ * Modified in 2026 by Naman for SAM Modern
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -21,7 +22,7 @@
  */
 
 using System;
-using System.Windows.Forms;
+using System.Drawing;
 
 namespace SAM.Game.Stats
 {
@@ -35,14 +36,10 @@ namespace SAM.Game.Stats
         public string IconLocked;
         public string Name;
         public string Description;
-        public ListViewItem Item;
+        public bool IsChecked;
+        public Bitmap Icon;
 
-        #region public int ImageIndex;
-        public int ImageIndex
-        {
-            get => this.Item.ImageIndex;
-            set => this.Item.ImageIndex = value;
-        }
-        #endregion
+        public bool IsChanged => this.IsChecked != this.IsAchieved;
+        public bool IsProtected => (this.Permission & 3) != 0;
     }
 }

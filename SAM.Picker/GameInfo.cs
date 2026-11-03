@@ -1,4 +1,5 @@
 ﻿/* Copyright (c) 2024 Rick (rick 'at' gibbed 'dot' us)
+ * Modified in 2026 by Naman for SAM Modern
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -20,8 +21,8 @@
  *    distribution.
  */
 
+using System.Drawing;
 using System.Globalization;
-using System.Windows.Forms;
 
 namespace SAM.Picker
 {
@@ -31,7 +32,6 @@ namespace SAM.Picker
 
         public uint Id;
         public string Type;
-        public int ImageIndex;
 
         public string Name
         {
@@ -40,15 +40,14 @@ namespace SAM.Picker
         }
 
         public string ImageUrl;
-
-        public ListViewItem Item;
+        public Bitmap Logo;
+        public bool LogoQueued;
 
         public GameInfo(uint id, string type)
         {
             this.Id = id;
             this.Type = type;
             this.Name = null;
-            this.ImageIndex = 0;
             this.ImageUrl = null;
         }
     }

@@ -1,8 +1,8 @@
-version: 7.0.{build}
+version: 1.0.{build}
 
 branches:
   only:
-    - master
+    - main
 
 skip_tags: true
 skip_commits:
@@ -46,7 +46,7 @@ before_build:
 after_build:
   - set TZ=GMT
   - git log . > git-log.txt
-  - 7z a -r -tzip -mx=9 -x!*/LICENSE.txt SteamAchievementManager-%APPVEYOR_BUILD_VERSION%.zip ./LICENSE.txt ./git-log.txt ./upload/*.exe ./upload/*.dll
+  - 7z a -r -tzip -mx=9 -x!*/LICENSE.txt SAMModern-%APPVEYOR_BUILD_VERSION%.zip ./LICENSE.txt ./git-log.txt ./upload/*.exe ./upload/*.dll ./upload/*.exe.config
 
 artifacts:
   - path: '*-*.zip'

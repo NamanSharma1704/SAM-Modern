@@ -1,4 +1,5 @@
 ﻿/* Copyright (c) 2024 Rick (rick 'at' gibbed 'dot' us)
+ * Modified in 2026 by Naman for SAM Modern
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -120,6 +121,36 @@ namespace SAM.API
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public string GetGameImageUrl(uint id)
+        {
+            const string storeAssets = "https://shared.steamstatic.com/store_item_assets/steam/apps";
+
+            var language = this.SteamApps008.GetCurrentGameLanguage();
+
+            var candidate = this.SteamApps001.GetAppData(id, $"small_capsule/{language}");
+            if (string.IsNullOrEmpty(candidate) == false)
+            {
+                return FormattableString.Invariant($"{storeAssets}/{id}/{candidate}");
+            }
+
+            if (language != "english")
+            {
+                candidate = this.SteamApps001.GetAppData(id, "small_capsule/english");
+                if (string.IsNullOrEmpty(candidate) == false)
+                {
+                    return FormattableString.Invariant($"{storeAssets}/{id}/{candidate}");
+                }
+            }
+
+            candidate = this.SteamApps001.GetAppData(id, "logo");
+            if (string.IsNullOrEmpty(candidate) == false)
+            {
+                return FormattableString.Invariant($"https://shared.steamstatic.com/community_assets/images/apps/{id}/{candidate}.jpg");
+            }
+
+            return null;
         }
 
         public TCallback CreateAndRegisterCallback<TCallback>()

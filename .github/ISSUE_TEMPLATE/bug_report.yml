@@ -1,0 +1,45 @@
+name: Bug report
+description: Something in SAM Modern is broken.
+body:
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Before you post
+      options:
+        - label: I read the FAQ.
+          required: true
+        - label: I am using the latest release of SAM Modern.
+          required: true
+  - type: input
+    id: version
+    attributes:
+      label: SAM Modern version
+      placeholder: "1.0.0"
+    validations:
+      required: true
+  - type: input
+    id: steam
+    attributes:
+      label: Steam version and channel
+      description: In Steam, open Help, then About Steam.
+      placeholder: "1781041600, stable"
+    validations:
+      required: true
+  - type: input
+    id: game
+    attributes:
+      label: Game and App ID
+      description: Leave this empty if the problem isn't tied to one game.
+      placeholder: "Team Fortress 2, 440"
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened?
+      description: Include the exact error text, and what you expected to happen.
+    validations:
+      required: true
+  - type: textarea
+    id: other-tools
+    attributes:
+      label: Other Steam tools running
+      description: For example ArchiSteamFarm, idlers, or anything that changes game ownership.

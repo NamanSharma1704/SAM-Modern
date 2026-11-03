@@ -1,4 +1,5 @@
 ﻿/* Copyright (c) 2024 Rick (rick 'at' gibbed 'dot' us)
+ * Modified in 2026 by Naman for SAM Modern
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -23,6 +24,7 @@
 using System;
 using System.Diagnostics;
 using System.Windows.Forms;
+using SAM.UI;
 
 namespace SAM.Game
 {
@@ -33,6 +35,9 @@ namespace SAM.Game
         {
             long appId;
 
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+
             if (args.Length == 0)
             {
                 Process.Start("SAM.Picker.exe");
@@ -41,7 +46,7 @@ namespace SAM.Game
 
             if (long.TryParse(args[0], out appId) == false)
             {
-                MessageBox.Show(
+                ThemedDialog.Show(
                     "Could not parse application ID from command line argument.",
                     "Error",
                     MessageBoxButtons.OK,
@@ -51,7 +56,7 @@ namespace SAM.Game
 
             if (API.Steam.GetInstallPath() == Application.StartupPath)
             {
-                MessageBox.Show(
+                ThemedDialog.Show(
                     "This tool declines to being run from the Steam directory.",
                     "Error",
                     MessageBoxButtons.OK,
@@ -69,8 +74,8 @@ namespace SAM.Game
                 {
                     if (e.Failure == API.ClientInitializeFailure.ConnectToGlobalUser)
                     {
-                        MessageBox.Show(
-                            "Steam is not running. Please start Steam then run this tool again.\n\n" +
+                        ThemedDialog.Show(
+                            e.UserMessage + "\n\n" +
                             "If you have the game through Family Share, the game may be locked due to\n" +
                             "the Family Share account actively playing a game.\n\n" +
                             "(" + e.Message + ")",
@@ -80,8 +85,8 @@ namespace SAM.Game
                     }
                     else if (string.IsNullOrEmpty(e.Message) == false)
                     {
-                        MessageBox.Show(
-                            "Steam is not running. Please start Steam then run this tool again.\n\n" +
+                        ThemedDialog.Show(
+                            e.UserMessage + "\n\n" +
                             "(" + e.Message + ")",
                             "Error",
                             MessageBoxButtons.OK,
@@ -89,8 +94,8 @@ namespace SAM.Game
                     }
                     else
                     {
-                        MessageBox.Show(
-                            "Steam is not running. Please start Steam then run this tool again.",
+                        ThemedDialog.Show(
+                            e.UserMessage,
                             "Error",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
@@ -99,16 +104,14 @@ namespace SAM.Game
                 }
                 catch (DllNotFoundException)
                 {
-                    MessageBox.Show(
-                        "You've caused an exceptional error!",
+                    ThemedDialog.Show(
+                        "A library this tool needs could not be found. Please reinstall Steam then try again.",
                         "Error",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                     return;
                 }
 
-                Application.EnableVisualStyles();
-                Application.SetCompatibleTextRenderingDefault(false);
                 Application.Run(new Manager(appId, client));
             }
         }

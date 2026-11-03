@@ -1,4 +1,5 @@
 ﻿/* Copyright (c) 2024 Rick (rick 'at' gibbed 'dot' us)
+ * Modified in 2026 by Naman for SAM Modern
  *
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
@@ -20,15 +21,31 @@
  *    distribution.
  */
 
-using System.Windows.Forms;
+using System;
+using System.Runtime.Serialization;
 
-namespace SAM.Game
+namespace SAM.Game.Stats
 {
-	internal class DoubleBufferedListView : ListView
-	{
-		public DoubleBufferedListView()
-		{
-			base.DoubleBuffered = true;
-		}
-	}
+    [Serializable]
+    internal class StatConstraintException : Exception
+    {
+        public StatConstraintException()
+        {
+        }
+
+        public StatConstraintException(string message)
+            : base(message)
+        {
+        }
+
+        public StatConstraintException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
+
+        protected StatConstraintException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
+    }
 }
